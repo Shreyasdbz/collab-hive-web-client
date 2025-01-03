@@ -1,0 +1,107 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "import",
+    "unused-imports"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:jsx-a11y/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:@next/next/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "@radix-ui",
+            "message": "Do not import from @radix-ui. Use an alternative library or implement functionality directly."
+          }
+        ],
+        "patterns": ["@radix-ui/*"]
+      }
+    ],
+    "react/react-in-jsx-scope": "off", // Next.js does not require React in scope.
+    "react/prop-types": "off", // Not needed with TypeScript.
+    "react/jsx-key": "error", // Ensure all JSX elements have keys when necessary.
+    "react/jsx-no-duplicate-props": "error", // Avoid duplicate props in JSX.
+    "react/jsx-no-useless-fragment": "error", // Avoid unnecessary fragments.
+    "react/self-closing-comp": "error", // Enforce self-closing tags for components without children.
+    "react-hooks/rules-of-hooks": "error", // Enforce React hooks rules.
+    "react-hooks/exhaustive-deps": "warn", // Warn if dependencies are missing in useEffect.
+    "jsx-a11y/alt-text": "error", // Accessibility: Enforce alt text for images.
+    "jsx-a11y/anchor-is-valid": "error", // Accessibility: Ensure anchor tags are valid.
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-floating-promises": "error", // Prevent unhandled promises.
+    "@typescript-eslint/explicit-module-boundary-types": "off", // Allow implicit return types in React components.
+    "@typescript-eslint/consistent-type-imports": "warn", // Encourage consistent type imports.
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling"],
+          "index"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "unused-imports/no-unused-imports": "error", // Automatically remove unused imports.
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-console": ["warn", { "allow": ["warn", "error"] }], // Warn for console logs except warn/error.
+    "no-debugger": "error", // Disallow debugger usage.
+    "no-duplicate-imports": "error", // Prevent duplicate imports.
+    "@next/next/no-html-link-for-pages": "error" // Ensure usage of `next/link` for internal pages.
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  }
+}
