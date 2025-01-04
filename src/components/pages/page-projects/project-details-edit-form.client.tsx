@@ -37,7 +37,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useGetProjectDetails from "@/hooks/queries/use-get-project-details";
 
 const FORM_NAME_MIN_LENGTH = 3;
-const FORM_NAME_MAX_LENGTH = 100;
+const FORM_NAME_MAX_LENGTH = 60;
 const FORM_DESCRIPTION_MAX_LENGTH = 1200;
 
 const formSchema = z.object({
@@ -47,7 +47,7 @@ const formSchema = z.object({
       message: "Name must be at least 3 characters.",
     })
     .max(FORM_NAME_MAX_LENGTH, {
-      message: "Name must be at most 100 characters.",
+      message: "Name must be at most 60 characters.",
     }),
   description: z.string().max(FORM_DESCRIPTION_MAX_LENGTH, {
     message: "Description must be at most 1000 characters.",

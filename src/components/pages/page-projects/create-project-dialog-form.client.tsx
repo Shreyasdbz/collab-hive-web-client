@@ -14,11 +14,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useCreateNewProject from "@/hooks/mutations/use-create-new-project";
+import { cn } from "@/lib/utils";
+
+const FORM_NAME_MIN_LENGTH = 3;
+const FORM_NAME_MAX_LENGTH = 60;
 
 const formSchema = z.object({
-  projectName: z.string().min(4, {
-    message: "Project name must be at least 4 characters.",
-  }),
+  projectName: z
+    .string()
+    .min(FORM_NAME_MIN_LENGTH, {
+      message: "Project name must be at least 4 characters.",
+    })
+    .max(FORM_NAME_MAX_LENGTH, {
+      message: "Project name must be at most 60 characters.",
+    }),
 });
 
 const CreateProjectDialogForm = ({
@@ -98,7 +107,23 @@ const CreateProjectDialogForm = ({
                   }}
                 />
               </FormControl>
-              <FormDescription>Give your project a title.</FormDescription>
+              <FormDescription>
+                <span
+                  className={cn(
+                    "font-medium",
+                    field.value &&
+                      field.value.length < FORM_NAME_MIN_LENGTH &&
+                      "text-red-400 dark:text-red-600",
+                    field.value &&
+                      field.value.length > FORM_NAME_MAX_LENGTH &&
+                      "text-red-400 dark:text-red-600"
+                  )}
+                >
+                  ({field.value ? field.value && field.value.length : "0"}/
+                  {FORM_NAME_MAX_LENGTH})
+                </span>{" "}
+                This is your public display name for the project.
+              </FormDescription>{" "}
               <FormMessage />
             </FormItem>
           )}
