@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import { UserProvider } from "@/providers/UserProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { ThemeEditor } from "@/components/theme";
 
 const defaultUrl = process.env.NEXT_PUBLIC_APP_URL
   ? new URL(process.env.NEXT_PUBLIC_APP_URL)
@@ -33,6 +34,7 @@ export default function RootLayout({
             <QueryProvider>
               {children}
               <Toaster />
+              <ThemeEditor />
             </QueryProvider>
           </UserProvider>
         </ThemeProvider>

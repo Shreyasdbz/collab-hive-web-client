@@ -1,3 +1,4 @@
+import { ThemeEditor } from "../theme";
 import { ThemeSwitcher } from "../theme-switcher.client";
 
 const Footer = () => {
@@ -11,8 +12,12 @@ const Footer = () => {
         <span>Terms of use</span>
       </div>
       {/* About me links */}
-      {/* Theme switcher */}
-      <ThemeSwitcher />
+      {/* Utils */}
+      <div className="flex flex-row items-center justify-center gap-4">
+        {/* Theme switcher */}
+        <ThemeSwitcher />
+        <ThemeEditor useFloatingButton={false} />
+      </div>
     </footer>
   );
 };
