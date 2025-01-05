@@ -4,7 +4,7 @@ import CreatorProjectsSection from "@/components/pages/page-dashboard/creator-pr
 
 const Dashboard = () => {
   return (
-    <AuthWrapper pageTitle="Dashboard">
+    <AuthWrapper pageTitle="Dashboard" redirectHref="dashboard">
       <CreatorProjectsSection />
       <CollaboratorProjectsSection />
     </AuthWrapper>

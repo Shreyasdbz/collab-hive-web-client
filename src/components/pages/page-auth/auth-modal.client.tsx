@@ -18,7 +18,7 @@ const AuthModal = ({ redirectHref }: { redirectHref?: string }) => {
 
   async function signInWithGithub() {
     const redirectUrl = redirectHref
-      ? `http://localhost:3000$/api/auth/callback?next=${redirectHref}`
+      ? `http://localhost:3000/api/auth/callback?next=${redirectHref}`
       : "http://localhost:3000/api/auth/callback";
     await supabase.auth.signInWithOAuth({
       provider: "github",
@@ -30,7 +30,7 @@ const AuthModal = ({ redirectHref }: { redirectHref?: string }) => {
 
   async function signInWithGoogle() {
     const redirectUrl = redirectHref
-      ? `http://localhost:3000$/api/auth/callback?next=${redirectHref}`
+      ? `http://localhost:3000/api/auth/callback?next=${redirectHref}`
       : "http://localhost:3000/api/auth/callback";
     await supabase.auth.signInWithOAuth({
       provider: "google",
