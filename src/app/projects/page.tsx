@@ -1,5 +1,5 @@
 import PageWrapper from "@/components/layout/page-wrapper";
-import Search from "@/components/pages/page-projects/search";
+import Search from "@/components/pages/page-projects/search/search";
 
 const Projects = () => {
   return (

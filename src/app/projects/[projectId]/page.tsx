@@ -1,4 +1,4 @@
-import ProjectDetailsView from "@/components/pages/page-projects/project-details-view.client";
+import ProjectView from "@/components/pages/page-projects/details/project-view.client";
 
 const ProjectDetailsPage = async ({
   params,
@@ -7,7 +7,7 @@ const ProjectDetailsPage = async ({
 }) => {
   const projectId = (await params).projectId;
 
-  return <ProjectDetailsView projectId={projectId} />;
+  return <ProjectView projectId={projectId} />;
 };
 
 export default ProjectDetailsPage;

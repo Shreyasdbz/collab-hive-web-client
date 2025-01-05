@@ -39,7 +39,7 @@ const formSchema = z.object({
   }),
 });
 
-const ProfileDetailsEditForm = ({
+const ProfileEditDetailsForm = ({
   initialDetails,
 }: {
   initialDetails: GetProfileDetailsResponseDto;
@@ -194,4 +194,4 @@ const ProfileDetailsEditForm = ({
   );
 };
 
-export default ProfileDetailsEditForm;
+export default ProfileEditDetailsForm;

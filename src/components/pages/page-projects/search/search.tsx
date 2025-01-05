@@ -1,7 +1,7 @@
 import { ProjectsSearchProvider } from "@/providers/projects-search-provider";
 import SearchFilters from "./search-filters.client";
 import SearchResults from "./search-results.client";
-import CreateProjectDialog from "./create-project-dialog.client";
+import CreateProjectDialog from "../details/create-project-dialog.client";
 
 const Search = () => {
   return (

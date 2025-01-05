@@ -1,4 +1,4 @@
-import ProjectDetailsEditForm from "@/components/pages/page-projects/project-details-edit-form.client";
+import ProjectEdit from "@/components/pages/page-projects/details/project-edit.client";
 
 const ProjectEditPage = async ({
   params,
@@ -7,7 +7,7 @@ const ProjectEditPage = async ({
 }) => {
   const projectId = (await params).projectId;
 
-  return <ProjectDetailsEditForm projectId={projectId} />;
+  return <ProjectEdit projectId={projectId} />;
 };
 
 export default ProjectEditPage;

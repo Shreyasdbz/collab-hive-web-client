@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import useGetProfileDetails from "@/hooks/queries/use-get-profile-details";
-import ProfileDetailsEditForm from "./profile-details-edit-form.client";
+import ProfileEditDetailsForm from "./profile-edit-details-form.client";
 
 const ProfileEdit = ({ profileId }: { profileId: string }) => {
   const { data, error, isLoading } = useGetProfileDetails({
@@ -46,15 +46,17 @@ const ProfileEdit = ({ profileId }: { profileId: string }) => {
 
   return (
     <PageWrapper title="Edit profile">
+      {/* Details */}
       <Card className="w-full shadow-none">
         <CardHeader>
           <CardTitle>Details</CardTitle>
           <CardDescription>Edit your profile details here</CardDescription>
         </CardHeader>
         <CardContent>
-          <ProfileDetailsEditForm initialDetails={data} />
+          <ProfileEditDetailsForm initialDetails={data} />
         </CardContent>
       </Card>
+      {/* Links */}
       <Card className="w-full shadow-none">
         <CardHeader>
           <CardTitle>Links</CardTitle>

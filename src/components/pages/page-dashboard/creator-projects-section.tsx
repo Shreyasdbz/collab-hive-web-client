@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CreatorProjectsSectionClient from "./creator-projects-section.client";
-import CreateProjectDialog from "../page-projects/create-project-dialog.client";
+import CreateProjectDialog from "../page-projects/details/create-project-dialog.client";
 
 const CreatorProjectsSection = () => {
   return (
