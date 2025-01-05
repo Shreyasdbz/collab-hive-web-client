@@ -32,7 +32,7 @@ const ProjectViewDetails = ({
 }) => {
   const FavoriteSection = () => {
     return (
-      <Label className="w-full flex items-center justify-start space-x-1">
+      <div className="w-full flex items-center justify-start space-x-1">
         <Button
           variant={"ghost"}
           className={cn(
@@ -51,7 +51,7 @@ const ProjectViewDetails = ({
           {project.favoriteCount}
         </Button>
         <MutedText>people have favorited this project</MutedText>
-      </Label>
+      </div>
     );
   };
 

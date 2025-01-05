@@ -16,7 +16,7 @@ export default function useGetProjectSearchResults(args: QueryArgs) {
   const { session } = useUser();
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["project-search-results", session?.access_token],
+    queryKey: ["project-search-results", { ...args }],
     queryFn: () => getProjectSearchResults(args, session?.access_token),
     refetchOnWindowFocus: false,
   });

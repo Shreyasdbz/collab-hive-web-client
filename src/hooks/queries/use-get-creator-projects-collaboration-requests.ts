@@ -34,7 +34,7 @@ async function getCreatorProjectsCollaborationRequests(
   accessToken: string | undefined
 ): Promise<GetCreatorProjectCollaborationRequestsResponseDto[]> {
   try {
-    if (!accessToken) {
+    if (accessToken === undefined || accessToken === "") {
       return [];
     }
 
