@@ -1,12 +1,12 @@
 "use client";
 
-import { ICreatorProjectCard } from "@/models/Project";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import ErrorBlock from "@/components/common/error-block";
 import FetchingBlock from "@/components/common/fetching-block";
 import CreatorProjectCard from "./creator-project-card";
 import NoProjects from "./no-projects";
 import useGetCreatorProjectCards from "@/hooks/queries/use-get-dashboard-project-creator-cards";
+import { GetCreatorProjectCardResponseDto } from "@/models/collaboration-dtos";
 
 const CreatorProjectsSectionClient = () => {
   const { data, error, isLoading } = useGetCreatorProjectCards();
@@ -23,7 +23,7 @@ const CreatorProjectsSectionClient = () => {
   const Projects = ({
     projectsList,
   }: {
-    projectsList: ICreatorProjectCard[];
+    projectsList: GetCreatorProjectCardResponseDto[];
   }) => {
     return (
       <ScrollArea id="projects-section-wrapper-scroll-content ">
@@ -35,7 +35,7 @@ const CreatorProjectsSectionClient = () => {
               return 0;
             })
             .map((project) => (
-              <CreatorProjectCard key={project.id} {...project} />
+              <CreatorProjectCard key={project.id} project={project} />
             ))}
         </div>
         <ScrollBar orientation="horizontal" />
