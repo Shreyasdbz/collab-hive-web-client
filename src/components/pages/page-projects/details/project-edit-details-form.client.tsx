@@ -24,6 +24,7 @@ import {
   ProjectComplexitiesMapping,
   ProjectRolesMapping,
   ProjectTechnologiesMapping,
+  ProjectTechnologiesMappingSortedAlphabetically,
 } from "@/models/project-mappings";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
@@ -408,21 +409,21 @@ const ProjectEditDetailsForm = ({
                     </Label>
                     <ScrollArea className="w-full border border-secondary rounded-lg">
                       <div className="w-full flex flex-wrap items-center justify-start gap-1 px-2 py-2 max-h-56">
-                        {[...ProjectTechnologiesMapping.entries()].map(
-                          ([key]) => {
-                            if (field.value && field.value.includes(key)) {
-                              return null;
-                            } else {
-                              return (
-                                <SelectionPill
-                                  key={key}
-                                  value={key}
-                                  selectionType="technologies"
-                                />
-                              );
-                            }
+                        {[
+                          ...ProjectTechnologiesMappingSortedAlphabetically.entries(),
+                        ].map(([key]) => {
+                          if (field.value && field.value.includes(key)) {
+                            return null;
+                          } else {
+                            return (
+                              <SelectionPill
+                                key={key}
+                                value={key}
+                                selectionType="technologies"
+                              />
+                            );
                           }
-                        )}
+                        })}
                       </div>
                     </ScrollArea>
                   </div>

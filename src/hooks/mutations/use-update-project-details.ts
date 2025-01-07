@@ -81,7 +81,7 @@ async function updateProjectDetails(
     );
 
     if (!response.data || response.data.projectId) {
-      throw new Error("Project creation failed");
+      throw new Error("Could not update details");
     } else {
       return "Project details updated successfully";
     }

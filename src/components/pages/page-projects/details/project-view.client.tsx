@@ -52,7 +52,7 @@ const ProjectView = ({ projectId }: { projectId: string }) => {
   }
 
   return (
-    <PageWrapper>
+    <PageWrapper title={data.name}>
       <ProjectViewDetails
         project={data}
         user={user}

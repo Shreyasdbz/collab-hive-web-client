@@ -2,7 +2,12 @@ import { v4 as uuidv4 } from "uuid";
 import { UpdateProfileDetailsRequestDto } from "@/models/profile-dtos";
 import useUser from "@/providers/UserProvider";
 import axiosClient from "@/lib/axios";
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  UseMutationResult,
+} from "@tanstack/react-query";
+import { QUERY_KEY_GET_PROFILE_DETAILS } from "../queries/use-get-profile-details";
 
 export type MutationArgs = {
   data: UpdateProfileDetailsRequestDto;
@@ -19,11 +24,14 @@ export default function useUpdateProfileDetails({
   mutation: UseMutationResult<string, unknown, MutationArgs>;
 } {
   const { session } = useUser();
-
+  const queryClient = new QueryClient();
   const mutation = useMutation<string, unknown, MutationArgs>({
     mutationFn: (args) => updateProfileDetails(args, session?.access_token),
     onSuccess: (message) => {
       onSuccessCallback(message);
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY_GET_PROFILE_DETAILS, "me"],
+      });
     },
     onError: (error) => {
       const errorMessage =

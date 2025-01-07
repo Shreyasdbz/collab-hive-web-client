@@ -186,7 +186,7 @@ const ProfileEditDetailsForm = ({
         <div className="w-full">
           <Button className="w-full lg:w-fit" type="submit" variant={"default"}>
             <Save size={18} />
-            <span>Save changes</span>
+            <span>Save details</span>
           </Button>
         </div>
       </form>

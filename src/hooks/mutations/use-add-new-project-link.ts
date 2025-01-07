@@ -8,11 +8,12 @@ import {
 } from "@tanstack/react-query";
 import useUser from "@/providers/UserProvider";
 import axiosClient from "@/lib/axios";
-import { QUERY_KEY_GET_CREATOR_PROJECT_CARDS } from "../queries/use-get-dashboard-project-creator-cards";
+import { QUERY_KEY_GET_PROJECT_DETAILS } from "../queries/use-get-project-details";
+import { CreateProjectLinkRequestDto } from "@/models/project-dtos";
 
-export type MutationArgs = {
-  name: string;
-};
+export interface MutationArgs extends CreateProjectLinkRequestDto {
+  projectId: string;
+}
 
 /**
  * Hook to create a new project in the system
@@ -20,7 +21,7 @@ export type MutationArgs = {
  * @param onErrorCallback: Callback function to be called on error
  * @returns {runMutation, mutation}
  */
-export default function useCreateNewProject({
+export default function useAddNewProjectLink({
   onSuccessCallback,
   onErrorCallback,
 }: {
@@ -34,11 +35,11 @@ export default function useCreateNewProject({
   const queryClient = new QueryClient();
 
   const mutation = useMutation<string, unknown, MutationArgs>({
-    mutationFn: (args) => createNewProject(args, session?.access_token),
+    mutationFn: (args) => addNewProjectLink(args, session?.access_token),
     onSuccess: (message) => {
       onSuccessCallback(message);
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_GET_CREATOR_PROJECT_CARDS, session?.access_token],
+        queryKey: [QUERY_KEY_GET_PROJECT_DETAILS],
       });
     },
     onError: (error) => {
@@ -58,7 +59,7 @@ export default function useCreateNewProject({
   };
 }
 
-async function createNewProject(
+async function addNewProjectLink(
   args: MutationArgs,
   accessToken: string | undefined
 ): Promise<string> {
@@ -69,8 +70,8 @@ async function createNewProject(
   try {
     const correlationId = uuidv4();
     const response = await axiosClient.post(
-      `/projects/`,
-      { name: args.name },
+      `/projects/${args.projectId}/links`,
+      { ...args },
       {
         headers: {
           Authorization: `${accessToken}`,
@@ -81,10 +82,10 @@ async function createNewProject(
       }
     );
 
-    if (!response.data || !response.data.data.projectId) {
-      throw new Error("Project creation failed");
+    if (response.status !== 201) {
+      throw new Error("Couldn't add a new link");
     } else {
-      return response.data.data.projectId;
+      return response.data.data.message;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

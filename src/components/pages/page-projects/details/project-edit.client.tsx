@@ -14,6 +14,8 @@ import useGetProjectDetails from "@/hooks/queries/use-get-project-details";
 import useUser from "@/providers/UserProvider";
 import { useRouter } from "next/navigation";
 import ProjectEditDetailsForm from "./project-edit-details-form.client";
+import DeleteLinkDialog from "@/components/common/delete-link-dialog.client";
+import ProjectEditLinkCreateDialogForm from "./project-edit-link-create-dialog-form.client";
 
 const ProjectEdit = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
@@ -74,7 +76,24 @@ const ProjectEdit = ({ projectId }: { projectId: string }) => {
             designs, etc.
           </CardDescription>
         </CardHeader>
-        <CardContent>{/* ProjectEditLinksForm */}</CardContent>
+        <CardContent>
+          <div className="w-full flex flex-wrap gap-1">
+            <ProjectEditLinkCreateDialogForm projectId={projectId} />
+            {data.links &&
+              data.links.map((link) => (
+                <DeleteLinkDialog
+                  projectId={projectId}
+                  key={link.id}
+                  linkId={link.id}
+                  linkType={link.linkType}
+                  linkTitle={link.linkTitle}
+                  linkUrl={link.linkUrl}
+                  domain="project"
+                  redirectUrl={`/projects/${projectId}/edit-details`}
+                />
+              ))}
+          </div>{" "}
+        </CardContent>
       </Card>
     </PageWrapper>
   );

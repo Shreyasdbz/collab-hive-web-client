@@ -12,6 +12,7 @@ import { MutedText } from "@/components/ui/typography/muted-text";
 import { cn } from "@/lib/utils";
 import {
   GetProfileDetailsResponseDto,
+  GetProfileDetailsResponseDtoLink,
   GetProfileDetailsResponseDtoProjectCard,
 } from "@/models/profile-dtos";
 import { Label } from "@/components/ui/label";
@@ -19,6 +20,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { CircleCheck, CircleMinus, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import LinkPillView from "@/components/common/link-pill-view";
 
 const ProfileViewDetails = ({
   profile,
@@ -33,7 +35,14 @@ const ProfileViewDetails = ({
         <Label className="font-medium text-sm">Bio</Label>
         <>
           {bio && bio.length > 0 ? (
-            <p>{bio}</p>
+            <p>
+              {bio.split("\n").map((line, index) => (
+                <span key={index}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+            </p>
           ) : (
             <MutedText>{`${name} doesn't have a bio yet`}</MutedText>
           )}
@@ -88,6 +97,32 @@ const ProfileViewDetails = ({
             )}
           </div>
         </ScrollArea>
+      </div>
+    );
+  };
+
+  const LinksSecton = ({
+    links,
+  }: {
+    links: GetProfileDetailsResponseDtoLink[];
+  }) => {
+    return (
+      <div className="w-full flex flex-col items-start justify-start space-y-1">
+        <Label className="font-medium text-sm">Links</Label>
+        <div className="w-full flex flex-wrap items-start justify-start gap-1">
+          {links && links.length > 0 ? (
+            links.map((link) => (
+              <LinkPillView
+                key={link.id}
+                type={link.linkType}
+                title={link.linkTitle}
+                url={link.linkUrl}
+              />
+            ))
+          ) : (
+            <MutedText>No links provided</MutedText>
+          )}
+        </div>
       </div>
     );
   };
@@ -227,6 +262,7 @@ const ProfileViewDetails = ({
           <div className="flex flex-col w-full items-center justify-center space-y-6">
             <BioSection name={profile.name} bio={profile.bio} />
             <FavoritesSection projects={profile.favorites} />
+            <LinksSecton links={profile.links} />
           </div>
         </CardContent>
         <CardFooter className="">

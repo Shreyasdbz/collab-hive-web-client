@@ -16,7 +16,9 @@ const ProfileView = ({
   withWrapper: boolean;
 }) => {
   const { user } = useUser();
-  const { data, error, isLoading } = useGetProfileDetails({ profileId });
+  const { data, error, isLoading } = useGetProfileDetails({
+    profileId: profileId || "me",
+  });
 
   const WithWrapper = ({
     title,

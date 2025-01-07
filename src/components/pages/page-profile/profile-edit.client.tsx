@@ -12,10 +12,12 @@ import {
 } from "@/components/ui/card";
 import useGetProfileDetails from "@/hooks/queries/use-get-profile-details";
 import ProfileEditDetailsForm from "./profile-edit-details-form.client";
+import DeleteLinkDialog from "@/components/common/delete-link-dialog.client";
+import ProfileEditLinkCreateDialogForm from "./profile-edit-link-create-dialog-form.client";
 
-const ProfileEdit = ({ profileId }: { profileId: string }) => {
+const ProfileEdit = ({ profileId }: { profileId: string | undefined }) => {
   const { data, error, isLoading } = useGetProfileDetails({
-    profileId,
+    profileId: profileId !== undefined && profileId !== "" ? profileId : "me",
   });
 
   if (isLoading) {
@@ -61,6 +63,22 @@ const ProfileEdit = ({ profileId }: { profileId: string }) => {
         <CardHeader>
           <CardTitle>Links</CardTitle>
           <CardDescription>Edit your social links here</CardDescription>
+          <div className="w-full flex flex-wrap gap-1">
+            <ProfileEditLinkCreateDialogForm />
+            {data.links &&
+              data.links.map((link) => (
+                <DeleteLinkDialog
+                  projectId=""
+                  key={link.id}
+                  linkId={link.id}
+                  linkType={link.linkType}
+                  linkTitle={link.linkTitle}
+                  linkUrl={link.linkUrl}
+                  domain="profile"
+                  redirectUrl="/profile/edit"
+                />
+              ))}
+          </div>
         </CardHeader>
       </Card>
     </PageWrapper>

@@ -1,26 +1,20 @@
-"use client";
-
 import { v4 as uuidv4 } from "uuid";
-import {
-  useMutation,
-  UseMutationResult,
-  QueryClient,
-} from "@tanstack/react-query";
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import useUser from "@/providers/UserProvider";
 import axiosClient from "@/lib/axios";
-import { QUERY_KEY_GET_CREATOR_PROJECT_CARDS } from "../queries/use-get-dashboard-project-creator-cards";
 
 export type MutationArgs = {
-  name: string;
+  projectId: string;
+  linkId: string;
 };
 
 /**
- * Hook to create a new project in the system
+ * Hook to delete a link associated with a project
  * @param onSuccessCallback: Callback function to be called on successful mutation
  * @param onErrorCallback: Callback function to be called on error
  * @returns {runMutation, mutation}
  */
-export default function useCreateNewProject({
+export default function useDeleteProjectLink({
   onSuccessCallback,
   onErrorCallback,
 }: {
@@ -31,15 +25,11 @@ export default function useCreateNewProject({
   mutation: UseMutationResult<string, unknown, MutationArgs>;
 } {
   const { session } = useUser();
-  const queryClient = new QueryClient();
 
   const mutation = useMutation<string, unknown, MutationArgs>({
-    mutationFn: (args) => createNewProject(args, session?.access_token),
+    mutationFn: (args) => deleteProjectLink(args, session?.access_token),
     onSuccess: (message) => {
       onSuccessCallback(message);
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY_GET_CREATOR_PROJECT_CARDS, session?.access_token],
-      });
     },
     onError: (error) => {
       const errorMessage =
@@ -58,7 +48,7 @@ export default function useCreateNewProject({
   };
 }
 
-async function createNewProject(
+async function deleteProjectLink(
   args: MutationArgs,
   accessToken: string | undefined
 ): Promise<string> {
@@ -68,9 +58,8 @@ async function createNewProject(
 
   try {
     const correlationId = uuidv4();
-    const response = await axiosClient.post(
-      `/projects/`,
-      { name: args.name },
+    const response = await axiosClient.delete(
+      `/projects/${args.projectId}/links/${args.linkId}`,
       {
         headers: {
           Authorization: `${accessToken}`,
@@ -81,29 +70,15 @@ async function createNewProject(
       }
     );
 
-    if (!response.data || !response.data.data.projectId) {
-      throw new Error("Project creation failed");
+    if (response.status !== 200) {
+      throw new Error("Project link deleting failed");
     } else {
-      return response.data.data.projectId;
+      return response.data.data.message;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    if (error.response) {
-      // Response received with error status
-      const { status, data } = error.response;
-      if (status === 400) {
-        throw new Error(data.message || "Bad Request");
-      } else if (status === 401) {
-        throw new Error(data.message || "Unauthorized");
-      } else if (status === 500) {
-        throw new Error(data.message || "Server Error");
-      } else {
-        throw new Error(data.message || "Unexpected Error");
-      }
-    } else {
-      // No response (network issue, etc.)
-      throw new Error(error.message || "Network Error");
-    }
+    // No response (network issue, etc.)
+    throw new Error(error.message || "Network Error");
   }
 }

@@ -104,6 +104,7 @@ export const ProjectTechnologiesMapping = new Map<string, string>([
   ["43f8b7c3-2a4d-4f91-9b8e-f7c1a9b03e4d", "PostgreSQL"],
   ["44a8b7c3-4f1d-4f91-83d9-c1e9a7b03f9d", "Redis"],
   ["45b7c9a3-3f4d-4f91-83d7-e9a2c7b03f4d", "SQLite"],
+  ["15b7c1a1-3f4d-1f91-83d7-e9a2c7b03f2d", "Supabase"],
   // **AI/ML Tools**
   ["46c7b9a3-9f4d-4f91-83b7-d2e1a9b03f4d", "Hugging Face"],
   ["47d9b7a3-2f4d-4f91-9b8c-f7e1a9b03f4d", "Pandas"],

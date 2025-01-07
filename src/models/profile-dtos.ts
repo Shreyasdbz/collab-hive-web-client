@@ -1,3 +1,9 @@
+export interface GetProfileDetailsResponseDtoLink {
+  id: string;
+  linkType: string;
+  linkTitle: string;
+  linkUrl: string;
+}
 export interface GetProfileDetailsResponseDtoProjectCard {
   id: string;
   name: string;
@@ -16,10 +22,21 @@ export interface GetProfileDetailsResponseDto {
   favorites: GetProfileDetailsResponseDtoProjectCard[];
   creatorProjects: GetProfileDetailsResponseDtoProjectCard[];
   collaborationProjects: GetProfileDetailsResponseDtoProjectCard[];
+  links: GetProfileDetailsResponseDtoLink[];
 }
 
 export interface UpdateProfileDetailsRequestDto {
   name?: string;
   bio?: string;
   avatarUrl?: string | null;
+}
+export interface ModifyProfileStandardResponseDto {
+  message: string;
+  profileId: string;
+}
+
+export interface CreateProfileLinkRequestDto {
+  linkType: string;
+  linkTitle: string;
+  linkUrl: string;
 }

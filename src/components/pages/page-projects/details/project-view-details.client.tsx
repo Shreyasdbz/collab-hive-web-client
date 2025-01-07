@@ -20,6 +20,7 @@ import {
 } from "@/models/project-mappings";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import LinkPillView from "@/components/common/link-pill-view";
 
 const ProjectViewDetails = ({
   project,
@@ -60,9 +61,18 @@ const ProjectViewDetails = ({
       <div className="w-full flex flex-col items-start justify-start space-y-1">
         <Label className="font-medium text-sm">Description</Label>
         <p>
-          {project.description && project.description.length > 0
-            ? project.description
-            : "This project doesn't have a description yet"}
+          {project.description && project.description.length > 0 ? (
+            <>
+              {project.description.split("\n").map((line, index) => (
+                <span key={index}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+            </>
+          ) : (
+            <span>{`This project doesn't have a description yet`}</span>
+          )}
         </p>
       </div>
     );
@@ -131,23 +141,21 @@ const ProjectViewDetails = ({
     );
   };
 
-  const LinksSection = ({ links }: { links: string[] }) => {
+  const LinksSection = () => {
     return (
       <div className="w-full flex flex-col items-start justify-start space-y-1">
         <Label className="font-medium text-sm">Links</Label>
         <div className="w-full flex flex-wrap gap-1">
-          {links.map((link, index) => (
-            <a
-              key={index}
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              {link}
-            </a>
-          ))}
-          {links.length === 0 && (
+          {project.links &&
+            project.links.map((link) => (
+              <LinkPillView
+                key={link.id}
+                type={link.linkType}
+                title={link.linkTitle}
+                url={link.linkUrl}
+              />
+            ))}
+          {project.links && project.links.length === 0 && (
             <span>
               This project doesn&apos;t have any links to external resources.
             </span>
@@ -200,7 +208,7 @@ const ProjectViewDetails = ({
           <ComplexitySection />
           <TechnologiesSection />
           <RolesSection />
-          <LinksSection links={[]} />
+          <LinksSection />
           <CollaborationStatusSection />
         </CardContent>
 
