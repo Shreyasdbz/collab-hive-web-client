@@ -17,7 +17,14 @@ import { Label } from "@/components/ui/label";
 import { MutedText } from "@/components/ui/typography/muted-text";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowUpRight, Ban, Check, UserCircle, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  Ban,
+  Check,
+  CheckCheck,
+  UserCircle,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import useManageCollaborationRequests from "@/hooks/mutations/use-manage-collaborations";
@@ -38,6 +45,9 @@ const ManageCollaboratorsDialog = ({
   const [removedCollaborators, setRemovedCollaborators] = useState<string[]>(
     []
   );
+  const [unblockedCollaborators, setUnblockedCollaborators] = useState<
+    string[]
+  >([]);
 
   const { runMutation } = useManageCollaborationRequests({
     onSuccessCallback: (message) => {
@@ -56,11 +66,25 @@ const ManageCollaboratorsDialog = ({
     },
   });
 
+  function handleToggleUnblock(collaboratorId: string) {
+    if (unblockedCollaborators.includes(collaboratorId)) {
+      setUnblockedCollaborators(
+        unblockedCollaborators.filter((collab) => collab !== collaboratorId)
+      );
+    } else {
+      setUnblockedCollaborators([...unblockedCollaborators, collaboratorId]);
+    }
+  }
+
   function handleSave() {
+    const combinedAcceptedCollaborators = [
+      ...acceptedCollaborators,
+      ...unblockedCollaborators,
+    ];
     runMutation({
       projectId: project.id,
       data: {
-        requestsAccepted: acceptedCollaborators,
+        requestsAccepted: combinedAcceptedCollaborators,
         requestsDeclined: declinedCollaborators,
         collaboratorsRemoved: removedCollaborators,
       },
@@ -198,100 +222,185 @@ const ManageCollaboratorsDialog = ({
               <div className="w-full flex flex-col items-start justify-start space-y-1 max-h-44">
                 {project.collaborationRequests.length > 0 ? (
                   <>
-                    {project.collaborationRequests.map((request) => (
-                      <Card
-                        key={request.id}
-                        className="w-full shadow-none flex flex-col items-start justify-center px-4 py-4 space-y-2"
-                      >
-                        <div className="w-full flex flex-row items-center justify-start">
-                          {request.sender.avatarUrl ? (
-                            <Image
-                              src={request.sender.avatarUrl}
-                              alt={`${request.sender.name}'s avatar`}
-                              height={32}
-                              width={32}
-                              className="rounded-full shadow-sm"
-                            />
-                          ) : (
-                            <UserCircle size={32} />
-                          )}
-                          <Link
-                            href={`/profile/${request.sender.id}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                    {project.collaborationRequests.map((request) => {
+                      if (!request.isDeclined) {
+                        return (
+                          <Card
+                            key={request.id}
+                            className="w-full shadow-none flex flex-col items-start justify-center px-4 py-4 space-y-2"
                           >
-                            <Button
-                              variant={"link"}
-                              className="text-lg font-medium"
-                            >
-                              {request.sender.name}
-                              <ArrowUpRight size={24} />
-                            </Button>
-                          </Link>
-                        </div>
-                        <div>
-                          <MutedText className="py-2">
-                            {request.message.length > 0
-                              ? request.message
-                              : "No message"}
-                          </MutedText>
-                        </div>
-                        <div className="w-full flex flex-row items-center justify-between space-x-4">
-                          <Button
-                            variant={"secondary"}
-                            className={cn(
-                              "w-full flex items-center justify-center bg-emerald-200 dark:bg-emerald-900 text-emerald-500 hover:bg-emerald-300 dark:hover:bg-emerald-700 hover:text-emerald-700 dark:hover:text-emerald-300 border border-transparent",
-                              acceptedCollaborators.includes(
-                                request.sender.id
-                              ) &&
-                                "bg-emerald-300 dark:bg-emerald-700 text-emerald-700 dark:text-emerald-300 border-emerald-500 dark:border-emerald-300"
-                            )}
-                            onClick={() => {
-                              setAcceptedCollaborators([
-                                ...acceptedCollaborators,
-                                request.sender.id,
-                              ]);
-                              setDeclinedCollaborators(
-                                declinedCollaborators.filter(
-                                  (collab) => collab !== request.sender.id
-                                )
-                              );
-                            }}
+                            <div className="w-full flex flex-row items-center justify-start">
+                              {request.sender.avatarUrl ? (
+                                <Image
+                                  src={request.sender.avatarUrl}
+                                  alt={`${request.sender.name}'s avatar`}
+                                  height={32}
+                                  width={32}
+                                  className="rounded-full shadow-sm"
+                                />
+                              ) : (
+                                <UserCircle size={32} />
+                              )}
+                              <Link
+                                href={`/profile/${request.sender.id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <Button
+                                  variant={"link"}
+                                  className="text-lg font-medium"
+                                >
+                                  {request.sender.name}
+                                  <ArrowUpRight size={24} />
+                                </Button>
+                              </Link>
+                            </div>
+                            <div>
+                              <MutedText className="py-2">
+                                {request.message.length > 0
+                                  ? request.message
+                                  : "No message"}
+                              </MutedText>
+                            </div>
+                            <div className="w-full flex flex-row items-center justify-between space-x-4">
+                              <Button
+                                variant={"secondary"}
+                                className={cn(
+                                  "w-full flex items-center justify-center bg-emerald-200 dark:bg-emerald-900 text-emerald-500 hover:bg-emerald-300 dark:hover:bg-emerald-700 hover:text-emerald-700 dark:hover:text-emerald-300 border border-transparent",
+                                  acceptedCollaborators.includes(
+                                    request.sender.id
+                                  ) &&
+                                    "bg-emerald-300 dark:bg-emerald-700 text-emerald-700 dark:text-emerald-300 border-emerald-500 dark:border-emerald-300"
+                                )}
+                                onClick={() => {
+                                  setAcceptedCollaborators([
+                                    ...acceptedCollaborators,
+                                    request.sender.id,
+                                  ]);
+                                  setDeclinedCollaborators(
+                                    declinedCollaborators.filter(
+                                      (collab) => collab !== request.sender.id
+                                    )
+                                  );
+                                }}
+                              >
+                                <Check size={20} />
+                                <span className="hidden lg:inline-block">
+                                  Accept
+                                </span>
+                              </Button>
+                              <Button
+                                variant={"secondary"}
+                                className={cn(
+                                  "w-full flex items-center justify-center bg-red-100 dark:bg-red-900 text-red-500 hover:bg-red-200 dark:hover:bg-red-800 hover:text-red-500 dark:hover:text-red-300 border border-transparent",
+                                  declinedCollaborators.includes(
+                                    request.sender.id
+                                  ) &&
+                                    "bg-red-200 dark:bg-red-800 text-red-500 dark:text-red-300 border-red-300 dark:border-red-300"
+                                )}
+                                onClick={() => {
+                                  setDeclinedCollaborators([
+                                    ...declinedCollaborators,
+                                    request.sender.id,
+                                  ]);
+                                  setAcceptedCollaborators(
+                                    acceptedCollaborators.filter(
+                                      (collab) => collab !== request.sender.id
+                                    )
+                                  );
+                                }}
+                              >
+                                <Ban size={20} />
+                                <span className="hidden lg:inline-block">
+                                  Decline
+                                </span>
+                              </Button>
+                            </div>
+                          </Card>
+                        );
+                      }
+                    })}
+                  </>
+                ) : (
+                  <MutedText>
+                    No collaboration requests for this project.
+                  </MutedText>
+                )}
+              </div>
+            </ScrollArea>
+          </div>
+
+          {/* Previously declined */}
+          <div className="w-full flex flex-col items-start justify-start space-y-2">
+            <Label>Previously declined</Label>
+            <ScrollArea className="w-full">
+              <div className="w-full flex flex-col items-start justify-start space-y-1 max-h-44">
+                {project.collaborationRequests.length > 0 ? (
+                  <>
+                    {project.collaborationRequests.map((request) => {
+                      if (request.isDeclined) {
+                        return (
+                          <Card
+                            key={request.id}
+                            className="w-full shadow-none flex flex-col items-start justify-center px-4 py-4 space-y-2"
                           >
-                            <Check size={20} />
-                            <span className="hidden lg:inline-block">
-                              Accept
-                            </span>
-                          </Button>
-                          <Button
-                            variant={"secondary"}
-                            className={cn(
-                              "w-full flex items-center justify-center bg-red-100 dark:bg-red-900 text-red-500 hover:bg-red-200 dark:hover:bg-red-800 hover:text-red-500 dark:hover:text-red-300 border border-transparent",
-                              declinedCollaborators.includes(
-                                request.sender.id
-                              ) &&
-                                "bg-red-200 dark:bg-red-800 text-red-500 dark:text-red-300 border-red-300 dark:border-red-300"
-                            )}
-                            onClick={() => {
-                              setDeclinedCollaborators([
-                                ...declinedCollaborators,
-                                request.sender.id,
-                              ]);
-                              setAcceptedCollaborators(
-                                acceptedCollaborators.filter(
-                                  (collab) => collab !== request.sender.id
-                                )
-                              );
-                            }}
-                          >
-                            <Ban size={20} />
-                            <span className="hidden lg:inline-block">
-                              Decline
-                            </span>
-                          </Button>
-                        </div>
-                      </Card>
-                    ))}
+                            <div className="w-full flex flex-row items-center justify-start">
+                              {request.sender.avatarUrl ? (
+                                <Image
+                                  src={request.sender.avatarUrl}
+                                  alt={`${request.sender.name}'s avatar`}
+                                  height={32}
+                                  width={32}
+                                  className="rounded-full shadow-sm"
+                                />
+                              ) : (
+                                <UserCircle size={32} />
+                              )}
+                              <Link
+                                href={`/profile/${request.sender.id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <Button
+                                  variant={"link"}
+                                  className="text-lg font-medium"
+                                >
+                                  {request.sender.name}
+                                  <ArrowUpRight size={24} />
+                                </Button>
+                              </Link>
+                            </div>
+                            <div>
+                              <MutedText className="py-2">
+                                {request.message.length > 0
+                                  ? request.message
+                                  : "No message"}
+                              </MutedText>
+                            </div>
+                            <div className="w-full flex flex-row items-center justify-between space-x-4">
+                              <Button
+                                variant={"secondary"}
+                                className={cn(
+                                  "w-full flex items-center justify-center bg-emerald-200 dark:bg-emerald-900 text-emerald-500 hover:bg-emerald-300 dark:hover:bg-emerald-700 hover:text-emerald-700 dark:hover:text-emerald-300 border border-transparent",
+                                  unblockedCollaborators.includes(
+                                    request.sender.id
+                                  ) &&
+                                    "bg-emerald-300 dark:bg-emerald-700 text-emerald-700 dark:text-emerald-300 border-emerald-500 dark:border-emerald-300"
+                                )}
+                                onClick={() => {
+                                  handleToggleUnblock(request.sender.id);
+                                }}
+                              >
+                                <CheckCheck size={20} />
+                                <span className="hidden lg:inline-block">
+                                  Accept
+                                </span>
+                              </Button>
+                            </div>
+                          </Card>
+                        );
+                      }
+                    })}
                   </>
                 ) : (
                   <MutedText>
@@ -316,6 +425,7 @@ const ManageCollaboratorsDialog = ({
               setAcceptedCollaborators([]);
               setDeclinedCollaborators([]);
               setRemovedCollaborators([]);
+              setUnblockedCollaborators([]);
               setDialogOpen(false);
             }}
           >
