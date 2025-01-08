@@ -15,6 +15,7 @@ import {
 } from "@/models/collaboration-dtos";
 import { ProjectTechnologiesMapping } from "@/models/project-mappings";
 import Image from "next/image";
+import { MutedText } from "@/components/ui/typography/muted-text";
 
 const CollaboratorProjectCard = ({
   project,
@@ -62,12 +63,12 @@ const CollaboratorProjectCard = ({
     collaborators: GetProjectCardResponseDtoCollaborator[]
   ) {
     if (collaborators.length === 0) {
-      return `Just ${project.creatorName} and you`;
+      return `with just ${project.creatorName} and you`;
     }
     if (collaborators.length === 1) {
-      return `${project.creatorName}, you, and ${collaborators[0].name}`;
+      return `with ${project.creatorName}, you, and ${collaborators[0].name}`;
     }
-    return `${project.creatorName}, you, ${collaborators[0].name} and ${
+    return `with ${project.creatorName}, you, ${collaborators[0].name} and ${
       collaborators.length - 2
     } other(s)`;
   }
@@ -77,9 +78,11 @@ const CollaboratorProjectCard = ({
       href={`/projects/${project.id}`}
       className="w-full min-w-fit lg:w-fit"
     >
-      <Card className="bg-accent/30 shadow-sm lg:pr-20 w-full min-w-fit hover:bg-accent/75">
+      <Card className="lg:pr-20 w-full lg:w-fit min-w-fit bg-transparent hover:bg-accent shadow-none transition-colors duration-300">
         <CardHeader>
-          <CardTitle>{project.name}</CardTitle>
+          <CardTitle className="lg:whitespace-nowrap text-lg font-medium tracking-normal">
+            {project.name}
+          </CardTitle>
           <CardDescription>
             <Badge className="gap-1" variant={"projectCreator"}>
               {project.creatorAvatarUrl ? (
@@ -98,14 +101,14 @@ const CollaboratorProjectCard = ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="lg:whitespace-nowrap text-lg font-light">
+          <p className="lg:whitespace-nowrap ext-lg font-normal">
             {getTechnologiesText(project.technologies)}
           </p>
         </CardContent>
         <CardFooter>
-          <span className="text-secondary-foreground/75">
+          <MutedText className="text-secondary-foreground/75">
             {getCollaboratorsText(project.collaborators)}
-          </span>
+          </MutedText>
         </CardFooter>
       </Card>
     </Link>

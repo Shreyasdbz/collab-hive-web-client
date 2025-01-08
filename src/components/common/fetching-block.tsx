@@ -10,7 +10,7 @@ const FetchingBlock = ({
   return (
     <div
       className={cn(
-        "w-full h-full flex items-center justify-center flex-row gap-2 text-muted py-20",
+        "w-full h-full flex items-center justify-center flex-row gap-2 text-muted-foreground py-20",
         className || ""
       )}
     >

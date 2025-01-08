@@ -18,13 +18,11 @@ const badgeVariants = cva(
         outlineStrong:
           "border-primary/50 bg-transparent text-primary text-xs font-semibold",
         collaborationActive:
-          "border-transparent bg-emerald-200 dark:bg-emerald-800 text-primary text-sm text-emerald-800 dark:text-emerald-200",
+          "border-transparent bg-emerald-200 dark:bg-emerald-800 text-primary text-base text-emerald-800 dark:text-emerald-200 rounded-full gap-1 font-normal",
         collaborationInactive:
-          "border-transparent bg-neutral-200 dark:bg-neutral-800 text-primary text-sm text-neutral-800 dark:text-neutral-200",
-        // projectCreator:
-        //   "border-transparent bg-primary text-primary-foreground text-sm",
+          "border-transparent bg-neutral-200 dark:bg-neutral-800 text-primary text-base text-neutral-800 dark:text-neutral-200 rounded-full gap-1 font-normal",
         projectCreator:
-          "border-transparent bg-secondary-foreground/80 text-primary-foreground text-sm",
+          "border-transparent bg-secondary text-secondary-foreground text-base rounded-full font-medium",
         favorites:
           "border-transparent bg-neutral-200 dark:bg-neutral-700 text-red-600 dark:text-red-400 text-sm rounded-full gap-1 font-normal text-xs",
         profileLink:

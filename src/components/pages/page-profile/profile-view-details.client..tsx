@@ -154,7 +154,7 @@ const ProfileViewDetails = ({
                 >
                   <Button
                     variant={"outline"}
-                    className="flex flex-col min-h-fit pr-20 items-start justify-center w-full lg:w-fit lg:max-w-fit"
+                    className="flex flex-col min-h-fit space-y-4 py-4 pr-20 items-start justify-center w-full lg:w-fit lg:max-w-fit"
                   >
                     <span className="text-lg font-medium">{project.name}</span>
                     <Badge

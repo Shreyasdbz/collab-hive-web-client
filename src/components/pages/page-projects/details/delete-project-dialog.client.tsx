@@ -25,7 +25,9 @@ const DeleteProjectDialog = ({ projectId }: { projectId: string }) => {
       toast({
         title: message,
       });
-      router.push("/dashboard");
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     },
     onErrorCallback: (error) => {
       toast({

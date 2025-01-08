@@ -36,6 +36,7 @@ import { LinkAttachmentIcon } from "@/components/common/link-attachment-icon";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useAddNewProfileLink from "@/hooks/mutations/use-add-new-profile-link";
 import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const FORM_TITLE_MIN_LENGTH = 1;
 const FORM_LINK_MIN_LENGTH = 1;
@@ -55,6 +56,7 @@ const formSchema = z.object({
 
 const ProfileEditLinkCreateDialogForm = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
 
   const { runMutation } = useAddNewProfileLink({
     onSuccessCallback: (message) => {
@@ -63,7 +65,8 @@ const ProfileEditLinkCreateDialogForm = () => {
       });
       setTimeout(() => {
         setDialogOpen(false);
-      }, 2000);
+        router.refresh();
+      }, 1000);
     },
     onErrorCallback: (message) => {
       toast({
@@ -218,11 +221,11 @@ const ProfileEditLinkCreateDialogForm = () => {
               )}
             />
 
-            <FormDescription className="flex flex-col pt-4 pb-6 space-y-2">
+            <FormDescription className="flex flex-col pb-4 space-y-2">
               <span>Full URL of the linked resource.</span>
             </FormDescription>
 
-            <Button type="submit" variant={"default"} className="">
+            <Button type="submit" variant={"default"} className="w-full">
               Add
             </Button>
           </form>

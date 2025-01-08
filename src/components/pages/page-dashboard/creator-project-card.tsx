@@ -14,6 +14,7 @@ import {
   GetProjectCardResponseDtoCollaborator,
 } from "@/models/collaboration-dtos";
 import { ProjectTechnologiesMapping } from "@/models/project-mappings";
+import { MutedText } from "@/components/ui/typography/muted-text";
 
 const CreatorProjectCard = ({
   project,
@@ -65,14 +66,14 @@ const CreatorProjectCard = ({
     }
 
     if (collaborators.length === 1) {
-      return `You and ${collaborators[0].name}`;
+      return `with ${collaborators[0].name}`;
     }
 
     if (collaborators.length === 2) {
-      return `You, ${collaborators[0].name} and ${collaborators[1].name}`;
+      return `with ${collaborators[0].name} and ${collaborators[1].name}`;
     }
 
-    return `You, ${collaborators[0].name} and ${
+    return `with ${collaborators[0].name} and ${
       collaborators.length - 1
     } others`;
   }
@@ -82,9 +83,11 @@ const CreatorProjectCard = ({
       href={`/projects/${project.id}`}
       className="w-full min-w-fit lg:w-fit"
     >
-      <Card className="bg-accent/30 shadow-sm lg:pr-20 w-full lg:w-fit min-w-fit hover:bg-accent/75">
+      <Card className="lg:pr-20 w-full lg:w-fit min-w-fit bg-transparent hover:bg-accent shadow-none transition-colors duration-300">
         <CardHeader>
-          <CardTitle className="lg:whitespace-nowrap">{project.name}</CardTitle>
+          <CardTitle className="lg:whitespace-nowrap text-lg font-medium tracking-normal">
+            {project.name}
+          </CardTitle>
           <CardDescription>
             <Badge
               className="gap-1"
@@ -104,14 +107,14 @@ const CreatorProjectCard = ({
           </CardDescription>
         </CardHeader>
         <CardContent className="lg:min-h-14 justify-start items-center flex flex-row">
-          <p className="lg:whitespace-nowrap text-lg font-light">
+          <p className="lg:whitespace-nowrap text-lg font-normal">
             {getTechnologiesText(project.technologies)}
           </p>
         </CardContent>
         <CardFooter className="lg:min-h-12 justify-start items-center flex flex-row">
-          <span className="text-secondary-foreground/75">
+          <MutedText className="text-secondary-foreground/75">
             {getCollaboratorsText(project.collaborators)}
-          </span>
+          </MutedText>
         </CardFooter>
       </Card>
     </Link>

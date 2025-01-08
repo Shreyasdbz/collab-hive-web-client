@@ -13,14 +13,19 @@ const CreatorProjectsSection = () => {
   return (
     <Card className="w-full shadow-none">
       <CardHeader>
-        <CardTitle>My projects</CardTitle>
+        <CardTitle className="text-xl">My projects</CardTitle>
         <CardDescription>All the projects you&apos;ve created</CardDescription>
       </CardHeader>
       <CardContent className="w-full lg:px-0">
         <CreatorProjectsSectionClient />
       </CardContent>
       <CardFooter>
-        <CreateProjectDialog useFullWidthButton={false} />
+        <div className="hidden lg:block w-full">
+          <CreateProjectDialog useFullWidthButton={false} />
+        </div>
+        <div className="lg:hidden w-full">
+          <CreateProjectDialog useFullWidthButton={true} />
+        </div>
       </CardFooter>
     </Card>
   );

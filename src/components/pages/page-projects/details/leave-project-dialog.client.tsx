@@ -13,15 +13,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import useLeaveProject from "@/hooks/mutations/use-leave-project";
+import { useRouter } from "next/navigation";
 
 const LeaveProjectDialog = ({ projectId }: { projectId: string }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
 
   const { runMutation } = useLeaveProject({
     onSuccessCallback: (message) => {
       toast({
         title: message,
       });
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
     },
     onErrorCallback: (error) => {
       toast({

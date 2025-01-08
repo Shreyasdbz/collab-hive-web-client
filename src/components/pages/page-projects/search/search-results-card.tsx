@@ -18,6 +18,7 @@ import Link from "next/link";
 import { UserCircle, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { MutedText } from "@/components/ui/typography/muted-text";
 
 const SearchResultsCard = (project: GetProjectSearchResultsResponseDto) => {
   const CollaboratorAvatar = ({
@@ -49,7 +50,7 @@ const SearchResultsCard = (project: GetProjectSearchResultsResponseDto) => {
       rel="noopener noreferrer"
       className="w-full hover:cursor-pointer"
     >
-      <Card className="w-full bg-secondary/30 dark:bg-secondary/50 hover:bg-secondary dark:hover:bg-secondary cursor-pointer shadow-none hover:shadow-sm hover:ring-1 ring-accent/75 overflow-hidden hover:cursor-pointer">
+      <Card className="w-full bg-transparent hover:bg-accent cursor-pointer shadow-none overflow-hidden hover:cursor-pointer transition-colors duration-200 ease-in-out rounded-lg">
         <CardHeader className="px-4 border-b">
           <CardTitle className="font-medium flex gap-2 items-start lg:items-center w-full justify-center lg:justify-start lg:flex-row flex-col-reverse">
             <Badge variant={"favorites"}>
@@ -59,8 +60,10 @@ const SearchResultsCard = (project: GetProjectSearchResultsResponseDto) => {
             {project.name}
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-1 px-4 pt-4">
+
+        <CardContent className="space-y-3 px-4 pt-4">
           <CardDescription className="flex flex-row gap-1 pt-2 w-full items-center justify-start">
+            <span className="font-medium text-foreground">By:</span>
             <Badge
               variant={"projectCreator"}
               className="font-normal text-sm rounded-full"
@@ -74,7 +77,6 @@ const SearchResultsCard = (project: GetProjectSearchResultsResponseDto) => {
                   className="rounded-full shadow-sm"
                 />
               )}
-              {/* <User size={16} /> */}
               <span className="ml-1">{project.creator.name}</span>
             </Badge>
 
@@ -94,16 +96,19 @@ const SearchResultsCard = (project: GetProjectSearchResultsResponseDto) => {
             </div>
           </CardDescription>
           {/* Project complexity section */}
-          <div className="flex gap-1 flex-row text-sm lg:text-base py-1">
+          <div className="flex gap-2 lg:gap-4 flex-row text-sm lg:text-base py-1">
             <span className="font-medium">Complexity:</span>
             {ProjectComplexitiesMapping.get(project.complexity)}
           </div>
           {/* Open to roles section */}
-          <div className="flex flex-col gap-1 lg:flex-row">
-            <span className="font-medium text-sm lg:text-base">
+          <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row">
+            <span className="font-medium text-sm lg:text-base whitespace-nowrap">
               Open roles:
             </span>
             <div className="flex flex-wrap gap-0.5">
+              {project.roles && project.roles.length === 0 && (
+                <MutedText className="lg:pt-1">No roles listed yet</MutedText>
+              )}
               {project.roles.map((role) => (
                 <Badge
                   key={role}
@@ -116,11 +121,16 @@ const SearchResultsCard = (project: GetProjectSearchResultsResponseDto) => {
             </div>
           </div>
           {/* Technologies section */}
-          <div className="flex flex-col gap-1 lg:flex-row">
+          <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row">
             <span className="font-medium text-sm lg:text-base">
               Technologies:
             </span>
             <div className="flex flex-wrap gap-0.5">
+              {project.technologies && project.technologies.length === 0 && (
+                <MutedText className="lg:pt-1">
+                  No technologies listed yet
+                </MutedText>
+              )}
               {project.technologies.map((technology) => (
                 <Badge
                   key={technology}

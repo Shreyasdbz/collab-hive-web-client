@@ -38,7 +38,7 @@ const SearchResults = () => {
     list: GetProjectSearchResultsResponseDto[];
   }) => {
     return (
-      <div className="w-full flex flex-col items-center justify-start gap-1">
+      <div className="w-full flex flex-col items-center justify-start gap-2">
         {list.map((project) => (
           <SearchResultsCard key={project.id} {...project} />
         ))}
@@ -47,7 +47,7 @@ const SearchResults = () => {
   };
 
   return (
-    <Card className="w-full shadow-none">
+    <Card className="w-full shadow-none rounded-md">
       <CardHeader className="">
         <CardTitle className="">Results</CardTitle>
       </CardHeader>

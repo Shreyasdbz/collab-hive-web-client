@@ -30,6 +30,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GetProjectDetailsResponseDto } from "@/models/project-dtos";
+import { useRouter } from "next/navigation";
 
 const FORM_NAME_MIN_LENGTH = 3;
 const FORM_NAME_MAX_LENGTH = 60;
@@ -63,11 +64,16 @@ const ProjectEditDetailsForm = ({
 }: {
   initialData: GetProjectDetailsResponseDto;
 }) => {
+  const router = useRouter();
   const { runMutation } = useUpdateProjectDetails({
     onSuccessCallback: () => {
       toast({
         title: "Project updated successfully",
       });
+      // Delay 1 second
+      setTimeout(() => {
+        router.refresh();
+      }, 1000);
     },
     onErrorCallback: (message) => {
       toast({

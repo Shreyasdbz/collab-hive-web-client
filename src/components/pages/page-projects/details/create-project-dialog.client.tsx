@@ -44,7 +44,7 @@ const CreateProjectDialog = ({
           className={useFullWidthButton ? "w-full" : ""}
         >
           <Plus size={16} />
-          <span>Create new project</span>
+          <span>Create new</span>
         </Button>
       </DialogTrigger>
 
