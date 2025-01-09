@@ -1,7 +1,9 @@
+import { Button } from "@/components/ui/button";
 import H2 from "@/components/ui/typography/h2";
 import H3 from "@/components/ui/typography/h3";
 import H4 from "@/components/ui/typography/h4";
 import Image from "next/image";
+import Link from "next/link";
 
 const DetailsSection = () => {
   const RoleCard = ({
@@ -39,29 +41,28 @@ const DetailsSection = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col items-center justify-center px-10 py-16 lg:px-20 lg:py-32 lg:space-y-8">
+      {/* Intro section */}
+      <section className="w-full flex flex-col items-center justify-center px-10 py-16 lg:px-20 lg:py-32 space-y-10">
         <H2 className="text-center flex flex-col items-center justify-center">
           <span>What is CollabHive?</span>
         </H2>
-        <div className="text-center max-w-2xl text-lg flex flex-col items-center justify-center space-y-4">
+        <div className="text-center max-w-2xl text-lg flex flex-col items-center justify-center space-y-6">
           <p>
             {`CollabHive is a project discovery and collaboration platform
             designed for developers, designers, product managers, and other
             roles in the software engineering world.`}
           </p>
-          <p>
-            {`Whether you’re a creator with an ambitious idea or a collaborator
-            looking to contribute and grow, CollabHive bridges the gap between
-            vision and execution.`}
-          </p>
-          <p>
-            {`Our mission is simple: empower individuals to create and contribute
+          <p className="font-bold">{`Our mission is simple:`}</p>
+          <blockquote className="mt-6 border-l-2 pl-6 italic tracking-wide">
+            {`Empower individuals to create and contribute
             to meaningful projects by connecting them with the right people and
             opportunities.`}
-          </p>
+          </blockquote>
         </div>
-      </div>
-      <div className="w-full flex flex-col items-center justify-center px-10 lg:px-20">
+      </section>
+
+      {/* Per role section */}
+      <section className="w-full flex flex-col items-center justify-center px-10 lg:px-20">
         <H2 className="text-center flex flex-col items-center justify-center">
           <span>Find projects to work on.</span>
           <span>Find collaborators to work with.</span>
@@ -82,7 +83,41 @@ const DetailsSection = () => {
             altText="People creating robot illustration"
           />
         </div>
-      </div>
+      </section>
+
+      {/* Read more about section */}
+      <section className="w-full flex flex-col items-center justify-center px-10 lg:px-20 py-16 lg:py-32 space-y-10">
+        <H2 className="text-center flex flex-col items-center justify-center">
+          <span>Wanna get involved?</span>
+        </H2>
+        <p>
+          Head over to the{" "}
+          <a
+            href="/about"
+            className="font-bold hover:underline underline-offset-4"
+          >
+            about
+          </a>{" "}
+          page to see how CollabHive is built and how to contribute.
+        </p>
+      </section>
+
+      {/* Happy collaborating */}
+      <section className="w-full flex flex-col items-center justify-center px-10 lg:px-20 py-16 lg:py-32 space-y-10">
+        <H2 className="text-center flex flex-col items-center justify-center">
+          <span>Happy collaborating!</span>
+        </H2>
+        <p className="text-center">
+          {`Ready to dive in and start exploring projects?`}
+          <br />
+          {`Click the button below to get started.`}
+        </p>
+        <Link href="/projects" className="">
+          <Button variant={"default"} className="">
+            Explore Projects
+          </Button>
+        </Link>
+      </section>
     </>
   );
 };

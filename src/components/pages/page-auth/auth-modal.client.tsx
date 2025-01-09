@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,30 +11,53 @@ import {
 } from "@/components/ui/card";
 import { createLocalClient } from "@/lib/supabase/supabase-local-client";
 import Link from "next/link";
+import { FaApple, FaGithub, FaGoogle } from "react-icons/fa6";
 
 const AuthModal = ({ redirectHref }: { redirectHref?: string }) => {
   const supabase = createLocalClient();
 
+  function getRedirectUrl() {
+    // Check if environment is production
+    if (process.env.NODE_ENV === "production") {
+      // Check if redirectHref is defined
+      if (redirectHref) {
+        return `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=${redirectHref}`;
+      } else {
+        return `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback`;
+      }
+    } else {
+      // Check if redirectHref is defined
+      if (redirectHref) {
+        return `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=${redirectHref}`;
+      } else {
+        return `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback`;
+      }
+    }
+  }
+
   async function signInWithGithub() {
-    const redirectUrl = redirectHref
-      ? `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=${redirectHref}`
-      : "${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback";
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: redirectUrl,
+        redirectTo: getRedirectUrl(),
       },
     });
   }
 
   async function signInWithGoogle() {
-    const redirectUrl = redirectHref
-      ? `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=${redirectHref}`
-      : "${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback";
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: redirectUrl,
+        redirectTo: getRedirectUrl(),
+      },
+    });
+  }
+
+  async function signInWithApple() {
+    await supabase.auth.signInWithOAuth({
+      provider: "apple",
+      options: {
+        redirectTo: getRedirectUrl(),
       },
     });
   }
@@ -58,20 +80,7 @@ const AuthModal = ({ redirectHref }: { redirectHref?: string }) => {
                 signInWithGithub();
               }}
             >
-              <Image
-                src="/logo-assets/github-logo.svg?height=14&width=14"
-                alt="Github Logo"
-                width={14}
-                height={14}
-                className="dark:hidden"
-              />
-              <Image
-                src="/logo-assets/github-logo-white.png?height=14&width=14"
-                alt="Github Logo"
-                width={14}
-                height={14}
-                className="hidden dark:block"
-              />
+              <FaGithub className="text-foreground" />
               <span>Sign in with Github</span>
             </Button>
             <Button
@@ -81,30 +90,17 @@ const AuthModal = ({ redirectHref }: { redirectHref?: string }) => {
                 signInWithGoogle();
               }}
             >
-              <Image
-                src="/logo-assets/google-logo.png?height=14&width=14"
-                alt="Google Logo"
-                width={14}
-                height={14}
-                className=""
-              />
+              <FaGoogle className="text-foreground" />
               <span>Sign in with Google</span>
             </Button>
-            <Button variant={"outline"} className="h-12">
-              <Image
-                src="/logo-assets/apple-logo-black.png?height=14&width=14"
-                alt="Apple Logo"
-                width={14}
-                height={14}
-                className=" dark:hidden"
-              />
-              <Image
-                src="/logo-assets/apple-logo-white.png?height=14&width=14"
-                alt="Apple Logo"
-                width={14}
-                height={14}
-                className=" hidden dark:block"
-              />
+            <Button
+              variant={"outline"}
+              className="h-12"
+              onClick={() => {
+                signInWithApple();
+              }}
+            >
+              <FaApple className="text-foreground" />
               <span>Sign in with Apple</span>
             </Button>
           </div>
@@ -112,7 +108,7 @@ const AuthModal = ({ redirectHref }: { redirectHref?: string }) => {
         <CardFooter className="text-sm">
           <span>
             By signing in, you agree to our{" "}
-            <Link href="/about/terms-of-service">
+            <Link href="/about/terms">
               <span className="text-blue-600">Terms of Service</span>
             </Link>{" "}
             and{" "}
