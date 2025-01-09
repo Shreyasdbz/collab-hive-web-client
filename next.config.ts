@@ -3,7 +3,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  ignoreBuildErrors: true,
   images: {
     domains: [
       "avatars.githubusercontent.com",
@@ -36,6 +35,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  missingSuspenseWithCSRBailout: false,
 };
 
 export default nextConfig;

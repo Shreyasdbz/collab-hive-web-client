@@ -12,6 +12,7 @@ import {
 import { Menu } from "lucide-react";
 import SiteLogo from "../common/site-logo";
 import UserButton from "./user-button.client";
+import { Suspense } from "react";
 
 const NavBar = () => {
   return (
@@ -54,7 +55,9 @@ const NavBar = () => {
               <SheetDescription className="pr-1">
                 Discover hobby projects and collaborators
               </SheetDescription>
-              <NavbarClient navItems={NavItems} isMobile={true} />
+              <Suspense fallback={null}>
+                <NavbarClient navItems={NavItems} isMobile={true} />
+              </Suspense>
             </SheetContent>
           </Sheet>
         </div>
