@@ -28,9 +28,9 @@ const AuthModal = ({ redirectHref }: { redirectHref?: string }) => {
     } else {
       // Check if redirectHref is defined
       if (redirectHref) {
-        return `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback?next=${redirectHref}`;
+        return `http://localhost:3000/api/auth/callback?next=${redirectHref}`;
       } else {
-        return `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback`;
+        return `http://localhost:3000/api/auth/callback`;
       }
     }
   }
