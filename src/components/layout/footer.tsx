@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ThemeSwitcher } from "../theme-switcher.client";
 
 const Footer = () => {
@@ -6,9 +7,13 @@ const Footer = () => {
       {/* Policy/terms links */}
       <div className="w-full flex flex-row items-center justify-center gap-4 px-4 lg:px-10">
         {/* Privcy Policy */}
-        <span>Privacy Policy</span>
+        <Link href={"/about/privacy-policy"}>
+          <span>Privacy Policy</span>
+        </Link>
         {/* Terms of use */}
-        <span>Terms of use</span>
+        <Link href={"/about/terms"}>
+          <span>Terms of use</span>
+        </Link>
       </div>
       {/* About me links */}
       {/* Theme switcher */}

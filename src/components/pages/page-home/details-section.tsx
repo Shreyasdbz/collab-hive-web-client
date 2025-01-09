@@ -38,28 +38,52 @@ const DetailsSection = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-center px-10 py-16 lg:px-20 lg:py-32 lg:space-y-20">
-      <H2 className="text-center flex flex-col items-center justify-center">
-        <span>Find projects to work on.</span>
-        <span>Find collaborators to work with.</span>
-      </H2>
-      <div className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-center px-4 py-10 space-y-4 lg:space-x-10">
-        <RoleCard
-          title="For creators"
-          subtitle="Bring Ideas to Life with the Perfect Team"
-          desc="Have a vision for your next big project? CollabHive lets you open the doors to a vibrant community of developers, designers, and product managers ready to collaborate. Find the right talent, build your dream team, and watch your ideas come to life faster than ever."
-          imageUrl="/illustrations/code-snippets-cuate.svg"
-          altText="Code snippets illustration"
-        />
-        <RoleCard
-          title="For collaborators"
-          subtitle="Discover, Learn, and Build Together"
-          desc="Looking to grow your skills or be part of something meaningful? CollabHive connects you with innovative projects where your talents can shine. Join passionate creators, collaborate across disciplines, and leave your mark on the next big thing."
-          imageUrl="/illustrations/people-creating-robot-cuate.svg"
-          altText="People creating robot illustration"
-        />
+    <>
+      <div className="w-full flex flex-col items-center justify-center px-10 py-16 lg:px-20 lg:py-32 lg:space-y-8">
+        <H2 className="text-center flex flex-col items-center justify-center">
+          <span>What is CollabHive?</span>
+        </H2>
+        <div className="text-center max-w-2xl text-lg flex flex-col items-center justify-center space-y-4">
+          <p>
+            {`CollabHive is a project discovery and collaboration platform
+            designed for developers, designers, product managers, and other
+            roles in the software engineering world.`}
+          </p>
+          <p>
+            {`Whether you’re a creator with an ambitious idea or a collaborator
+            looking to contribute and grow, CollabHive bridges the gap between
+            vision and execution.`}
+          </p>
+          <p>
+            {`Our mission is simple: empower individuals to create and contribute
+            to meaningful projects by connecting them with the right people and
+            opportunities.`}
+          </p>
+        </div>
       </div>
-    </div>
+      <div className="w-full flex flex-col items-center justify-center px-10 lg:px-20">
+        <H2 className="text-center flex flex-col items-center justify-center">
+          <span>Find projects to work on.</span>
+          <span>Find collaborators to work with.</span>
+        </H2>
+        <div className="w-full flex flex-col lg:flex-row items-center justify-center lg:justify-center px-4 py-10 space-y-4 lg:space-x-10">
+          <RoleCard
+            title="For creators"
+            subtitle="Bring Ideas to Life with the Perfect Team"
+            desc="Have a vision for your next big project? CollabHive lets you open the doors to a vibrant community of developers, designers, and product managers ready to collaborate. Find the right talent, build your dream team, and watch your ideas come to life faster than ever."
+            imageUrl="/illustrations/code-snippets-cuate.svg"
+            altText="Code snippets illustration"
+          />
+          <RoleCard
+            title="For collaborators"
+            subtitle="Discover, Learn, and Build Together"
+            desc="Looking to grow your skills or be part of something meaningful? CollabHive connects you with innovative projects where your talents can shine. Join passionate creators, collaborate across disciplines, and leave your mark on the next big thing."
+            imageUrl="/illustrations/people-creating-robot-cuate.svg"
+            altText="People creating robot illustration"
+          />
+        </div>
+      </div>
+    </>
   );
 };
 
