@@ -7,6 +7,12 @@ const ProjectEditPage = async ({
 }) => {
   const projectId = (await params).projectId;
 
+  if (!projectId) {
+    return {
+      notFound: true,
+    };
+  }
+
   return <ProjectEdit projectId={projectId} />;
 };
 

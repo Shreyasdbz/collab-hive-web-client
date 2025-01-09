@@ -7,6 +7,12 @@ const ProfileDetailsPage = async ({
 }) => {
   const profileId = (await params).profileId;
 
+  if (!profileId) {
+    return {
+      notFound: true,
+    };
+  }
+
   return <ProfileView profileId={profileId} withWrapper={true} />;
 };
 

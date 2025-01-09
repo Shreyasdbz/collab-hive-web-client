@@ -7,6 +7,12 @@ const ProjectDetailsPage = async ({
 }) => {
   const projectId = (await params).projectId;
 
+  if (!projectId) {
+    return {
+      notFound: true,
+    };
+  }
+
   return <ProjectView projectId={projectId} />;
 };
 
