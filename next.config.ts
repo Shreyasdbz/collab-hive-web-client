@@ -35,7 +35,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  missingSuspenseWithCSRBailout: false,
 };
 
 export default nextConfig;
